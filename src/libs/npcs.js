@@ -55,8 +55,6 @@ export function calcInit(npc) {
   let init = (npc.attributes.dexterity + npc.attributes.insight) / 2;
 
   // Skill Extra Init
-  let flatinit = Number(npc.extra?.extrainit)
-  init += flatinit
   if (npc.extra?.init) {
     init += 4;
   }
@@ -71,11 +69,19 @@ export function calcInit(npc) {
   if (npc.rank === "champion4") {
     init = init + 4;
   }
+  if (npc.rank === "champion5") {
+    init = init + 5;
+  }
 
   // Armor
   if (npc.armor?.init) {
     init += npc.armor?.init;
   }
+  //Flat Init Input
+  if (Number(npc.extra?.extrainit)) {
+    init += Number(npc.extra?.extrainit)
+  }
+  
 
 
   return init;
