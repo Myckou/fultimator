@@ -14,6 +14,7 @@ import ExplainSkills from "../../components/npc/ExplainSkills";
 import EditAttacks from "../../components/npc/EditAttacks";
 import EditWeaponAttacks from "../../components/npc/EditWeaponAttacks";
 import EditAffinities from "../../components/npc/EditAffinities";
+//import EditAffinitiesIgnore from "../../components/npc/EditAffinitiesIgnore"
 import EditSpecial from "../../components/npc/EditSpecial";
 import ExplainAffinities from "../../components/npc/ExplainAffinities";
 import EditExtra from "../../components/npc/EditExtra";
@@ -30,6 +31,8 @@ export default function NpcEdit() {
     idField: "id",
   });
 
+  console.log(npc,"npc")
+
   const [npcTemp, setNpcTemp] = useState(npc);
 
   useEffect(() => {
@@ -45,8 +48,8 @@ export default function NpcEdit() {
     },
     [ref, npcTemp]
   );
-  
- 
+
+
   useEffect(() => {
     document.addEventListener("keydown", handleCtrlS);
     return () => {
@@ -56,24 +59,24 @@ export default function NpcEdit() {
 
   // Download
   const prettyRef = createRef(null);
-  
+
   const [image, takeScreenShot] = useScreenshot()
-  
+
   const download = (image, { name = 'img', extension = 'png' } = {}) => {
     const a = document.createElement('a')
     a.href = image
     a.download = createFileName(extension, name)
     a.click()
   }
-  
+
   const getImage = () => takeScreenShot(prettyRef.current)
-  
+
   useEffect(() => {
     if (image) {
       download(image, { name: npc.name, extension: 'png' })
     }
   }, [image, npc?.name])
-  
+
   if (!npcTemp) {
     return null;
   }
@@ -98,6 +101,9 @@ export default function NpcEdit() {
         <Grid item xs={6}>
           <EditAffinities npc={npcTemp} setNpc={setNpcTemp} />
         </Grid>
+        {/* <Grid item xs={6}>
+          <EditAffinitiesIgnore npc={npcTemp} setNpc={setNpcTemp} />
+        </Grid> */}
         <Grid item xs={1}></Grid>
         <Grid item xs={5}>
           <ExplainAffinities npc={npcTemp} />

@@ -209,26 +209,7 @@ function MP({ npc, setNpc }) {
     </FormControl>
   );
 }
-function Init({ npc, setNpc }) {
-  const onChange = (e) => {
-    setNpc((prevState) => {
-      const newState = Object.assign({}, prevState);
-      if (!newState.extra) {
-        newState.extra = {};
-      }
-      newState.extra.init = e.target.checked;
-      return newState;
-    });
-  };
-  return (
-    <FormGroup>
-      <FormControlLabel
-        control={<Checkbox value={npc.extra?.init} onChange={onChange} />}
-        label="+4 Initiative"
-      />
-    </FormGroup>
-  );
-}
+
 function ExtraInit({ npc, setNpc }) {
   const onChange = (e) => {
     setNpc((prevState) => {
@@ -255,6 +236,28 @@ function ExtraInit({ npc, setNpc }) {
   );
 }
 
+function Init({ npc, setNpc }) {
+  const onChange = (e) => {
+    setNpc((prevState) => {
+      const newState = Object.assign({}, prevState);
+      if (!newState.extra) {
+        newState.extra = {};
+      }
+      newState.extra.init = e.target.checked;
+      return newState;
+    });
+  };
+  return (
+    <FormGroup>
+        <FormControlLabel 
+          control={<Checkbox/>}
+          checked={npc.extra?.init} 
+          label="+4 Initiative" 
+          onChange={onChange}
+        />
+    </FormGroup>
+  );
+}
 
 function Precision({ npc, setNpc }) {
   const onChange = (e) => {
@@ -270,7 +273,9 @@ function Precision({ npc, setNpc }) {
   return (
     <FormGroup>
       <FormControlLabel
-        control={<Checkbox value={npc.extra?.precision} onChange={onChange} />}
+        control={<Checkbox/>}
+        checked={npc.extra?.precision} 
+        onChange={onChange}
         label="+3 bonus to all Accuracy Checks"
       />
     </FormGroup>
@@ -291,7 +296,9 @@ function Magic({ npc, setNpc }) {
   return (
     <FormGroup>
       <FormControlLabel
-        control={<Checkbox value={npc.extra?.magic} onChange={onChange} />}
+        control={<Checkbox/>}
+        checked={npc.extra?.magic} 
+        onChange={onChange}
         label="+3 bonus to all Magic Checks."
       />
     </FormGroup>
