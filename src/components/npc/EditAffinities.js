@@ -32,8 +32,8 @@ export default function EditAffinities({ npc, setNpc }) {
     return (e) => {
       setNpc((prevState) => {
         const newState = Object.assign({}, prevState);
-        if (!newState.ignore[type]) {
-          newState.ignore[type] = false;
+        if (!newState.ignore) {
+          newState.ignore = {};
         }
         newState.ignore[type] = e.target.checked;
         return newState;
@@ -128,7 +128,8 @@ export default function EditAffinities({ npc, setNpc }) {
           type = typeList[type];
           const value = str2num(npc.affinities[type]);
           var checkreturn = false
-          if (npc.ignore[type] != null){
+          var ignoreexist = Object.keys(npc).includes("ignore") ? true:false;
+          if (ignoreexist && npc.ignore[type] != null){
              checkreturn = npc.ignore[type]
           };
           return (

@@ -250,12 +250,14 @@ export function calcAvailableSkillsFromVulnerabilities(npc) {
   const plantVulns = ["fire","wind","ice","bolt"];
   Object.entries(npc.affinities).forEach((el) => {
     const type = el[0]
-    const found = Object.keys(npc.ignore).includes(type) ? true:false;
+    const ignoreexist = Object.keys(npc).includes("ignore") ? true:false;
     
-    if (found && npc.ignore[type]) {
-      return;
+    if (ignoreexist) {
+      const found = Object.keys(npc.ignore).includes(type) ? true:false;
+      if (found && npc.ignore[type]) {
+        return;
+      };
     };
-
     if (el[1] === "vu") {
       sum++;
       
@@ -386,12 +388,17 @@ export function calcUsedSkillsFromResistances(npc) {
   Object.entries(npc.affinities).forEach((el) => { 
     
     const type = el[0]
-    const found = Object.keys(npc.ignore).includes(type) ? true:false;
-  
-    if (found && npc.ignore[type]) {
-      return;
+    
+    const ignoreexist = Object.keys(npc).includes("ignore") ? true:false;
+    
+    if (ignoreexist) {
+    
+      const found = Object.keys(npc.ignore).includes(type) ? true:false;
+    
+      if (found && npc.ignore[type]) {
+        return;
+      };
     };
-
     if (el[1] === "rs") {
       // Don't count earth for Construct
       if (npc.species === "Construct" && type === "earth") {
@@ -418,10 +425,15 @@ export function calcUsedSkillsFromImmunities(npc) {
   let sum = 0;
   Object.entries(npc.affinities).forEach((el) => {
     const type = el[0]
-    const found = Object.keys(npc.ignore).includes(type) ? true:false;
-  
-    if (found && npc.ignore[type]) {
-      return;
+    
+    const ignoreexist = Object.keys(npc).includes("ignore") ? true:false;
+    
+    if (ignoreexist) {
+      const found = Object.keys(npc.ignore).includes(type) ? true:false;
+    
+      if (found && npc.ignore[type]) {
+        return;
+      };
     };
 
     if (el[1] === "im") {
@@ -460,12 +472,15 @@ export function calcUsedSkillsFromAbsorbs(npc) {
   let sum = 0;
   Object.entries(npc.affinities).forEach((el) => {
     const type = el[0]
-    const found = Object.keys(npc.ignore).includes(type) ? true:false;
-  
-    if (found && npc.ignore[type]) {
-      return;
+    const ignoreexist = Object.keys(npc).includes("ignore") ? true:false;
+    
+    if (ignoreexist) {
+      const found = Object.keys(npc.ignore).includes(type) ? true:false;
+    
+      if (found && npc.ignore[type]) {
+        return;
+      };
     };
-
     if (el[1] === "ab") {
       sum++;
     }
