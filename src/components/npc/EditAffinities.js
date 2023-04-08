@@ -4,6 +4,9 @@ import {
   InputLabel,
   Slider,
   Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import { Fragment } from "react";
 import { TypeIcon, typeList, TypeName } from "../../components/types";
@@ -24,6 +27,33 @@ export default function EditAffinities({ npc, setNpc }) {
       });
     };
   };
+
+  const onChangeIgnore = (type) => {
+    return (e) => {
+      setNpc((prevState) => {
+        const newState = Object.assign({}, prevState);
+        if (!newState.ignore[type]) {
+          newState.ignore[type] = false;
+        }
+        newState.ignore[type] = e.target.checked;
+        return newState;
+      });
+    }
+  };
+  /*const onChangeAffinityType = (type) => {
+    return (e) => {
+      const value = e.target.value
+      setNpc((prevState) => {
+        const newState = Object.assign({}, prevState);
+        if (value === "") {
+          delete newState.affinitiesignore[type];
+        } else {
+          newState.affinitiesignore[type] = value;
+        }
+        return newState;
+      });
+    };
+  };*/
 
   const str2num = function (value) {
     if (!value) {
@@ -97,7 +127,10 @@ export default function EditAffinities({ npc, setNpc }) {
 
           type = typeList[type];
           const value = str2num(npc.affinities[type]);
-
+          var checkreturn = false
+          if (npc.ignore[type] != null){
+             checkreturn = npc.ignore[type]
+          };
           return (
             <Fragment key={i}>
               <Grid item xs={2}>
@@ -105,7 +138,7 @@ export default function EditAffinities({ npc, setNpc }) {
                   <TypeIcon type={type} /> <TypeName type={type} />
                 </InputLabel>
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={9}>
                 <FormControl variant="standard" fullWidth>
                   <Slider
                     marks={marks}
@@ -117,6 +150,24 @@ export default function EditAffinities({ npc, setNpc }) {
                     onChange={onChangeAffinity(type)}
                   />
                 </FormControl>
+              </Grid>
+              <Grid item xs={1}>
+                <FormControlLabel 
+                    id="ignore"
+                    title={"Ignore "+type+" cost"}
+                    size="small"
+                    checked={checkreturn}
+                    style={
+                      { 
+                      marginTop: -7,
+                      paddingBottom: 0 
+                      }
+                    }
+                    control={<Checkbox/>}
+                    labelPlacement="start"
+                    label=""
+                    onChange={onChangeIgnore(type)}
+                  />
               </Grid>
             </Fragment>
           );

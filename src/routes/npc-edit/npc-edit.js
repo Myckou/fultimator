@@ -31,7 +31,6 @@ export default function NpcEdit() {
     idField: "id",
   });
 
-  console.log(npc,"npc")
 
   const [npcTemp, setNpcTemp] = useState(npc);
 
@@ -101,9 +100,6 @@ export default function NpcEdit() {
         <Grid item xs={6}>
           <EditAffinities npc={npcTemp} setNpc={setNpcTemp} />
         </Grid>
-        {/* <Grid item xs={6}>
-          <EditAffinitiesIgnore npc={npcTemp} setNpc={setNpcTemp} />
-        </Grid> */}
         <Grid item xs={1}></Grid>
         <Grid item xs={5}>
           <ExplainAffinities npc={npcTemp} />

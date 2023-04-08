@@ -247,31 +247,32 @@ export function calcAvailableSkillsFromLevel(npc) {
 
 export function calcAvailableSkillsFromVulnerabilities(npc) {
   let sum = 0;
+  const plantVulns = ["fire","wind","ice","bolt"];
   Object.entries(npc.affinities).forEach((el) => {
+    const type = el[0]
+    const found = Object.keys(npc.ignore).includes(type) ? true:false;
+    
+    if (found && npc.ignore[type]) {
+      return;
+    };
+
     if (el[1] === "vu") {
       sum++;
-    }
-  });
+      
+      if (npc.affinities[type] === "physical") {
+        sum++;
+      }
 
-  if (npc.affinities.physical === "vu") {
-    sum++;
-  }
+      // Undeads are vulnerable to light
+      if (npc.species === "Undead" && type === "light") {
+        sum = sum - 1;
+      }
+      // Plants have a free vulnerability
+      if (npc.species === "Plant" && plantVulns.includes(type)) {
+        sum = sum - 1;
+      }
+  }});
 
-  // Undeads are vulnerable to light
-  if (npc.species === "Undead" && npc.affinities.light === "vu") {
-    sum = sum - 1;
-  }
-
-  // Plants have a free vulnerability
-  if (
-    npc.species === "Plant" &&
-    (npc.affinities.fire ||
-      npc.affinities.wind ||
-      npc.affinities.ice ||
-      npc.affinities.bolt)
-  ) {
-    sum = sum - 1;
-  }
   if (sum < 0) {
     sum = 0;
   }
@@ -382,10 +383,18 @@ export function calcUsedSkillsFromExtraMagic(npc) {
 
 export function calcUsedSkillsFromResistances(npc) {
   let sum = 0;
-  Object.entries(npc.affinities).forEach((el) => {
+  Object.entries(npc.affinities).forEach((el) => { 
+    
+    const type = el[0]
+    const found = Object.keys(npc.ignore).includes(type) ? true:false;
+  
+    if (found && npc.ignore[type]) {
+      return;
+    };
+
     if (el[1] === "rs") {
       // Don't count earth for Construct
-      if (npc.species === "Construct" && el[0] === "earth") {
+      if (npc.species === "Construct" && type === "earth") {
         return;
       }
 
@@ -408,19 +417,26 @@ export function calcUsedSkillsFromResistances(npc) {
 export function calcUsedSkillsFromImmunities(npc) {
   let sum = 0;
   Object.entries(npc.affinities).forEach((el) => {
+    const type = el[0]
+    const found = Object.keys(npc.ignore).includes(type) ? true:false;
+  
+    if (found && npc.ignore[type]) {
+      return;
+    };
+
     if (el[1] === "im") {
       // Don't count poison for Construct, Elemental, Non Mortto
       if (
         (npc.species === "Construct" ||
           npc.species === "Elemental" ||
           npc.species === "Undead") &&
-        el[0] === "poison"
+        type === "poison"
       ) {
         return;
       }
 
       // Don't count dark for Non Mortto
-      if (npc.species === "Undead" && el[0] === "dark") {
+      if (npc.species === "Undead" && type === "dark") {
         return;
       }
 
@@ -443,6 +459,13 @@ export function calcUsedSkillsFromImmunities(npc) {
 export function calcUsedSkillsFromAbsorbs(npc) {
   let sum = 0;
   Object.entries(npc.affinities).forEach((el) => {
+    const type = el[0]
+    const found = Object.keys(npc.ignore).includes(type) ? true:false;
+  
+    if (found && npc.ignore[type]) {
+      return;
+    };
+
     if (el[1] === "ab") {
       sum++;
     }
